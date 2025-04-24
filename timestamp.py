@@ -2,11 +2,11 @@ import mysql.connector
 import datetime
 
 # Database connection details
-DB_HOST = "DESKTOP-E0G81MK"  # Replace with your MySQL host
+DB_HOST = "localhost"  # Replace with your MySQL host
 DB_USER = "kevin"  # Replace with your MySQL username
 DB_PASSWORD = "420420"  # Replace with your MySQL password
-DB_NAME = "mydb"  # Replace with your MySQL database name
-TABLE_NAME = "cryptodata"
+DB_NAME = "cryptodata"  # Replace with your MySQL database name
+TABLE_NAME = "timestamp"
 
 def store_timestamp_in_mysql():
     """Connects to MySQL, creates a table if it doesn't exist,
