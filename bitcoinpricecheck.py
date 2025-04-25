@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup
 import locale # Needed for a later example, but good practice to import at top
 
 # Database connection details
-DB_HOST = "localhost"  # Replace with your MySQL host
-DB_USER = "root"  # Replace with your MySQL username
-DB_PASSWORD = "420420"  # Replace with your MySQL password
+DB_HOST = "db5017731874.hosting-data.io"  # Replace with your MySQL host
+DB_USER = "dbu271559"  # Replace with your MySQL username
+DB_PASSWORD = "420BUD420"  # Replace with your MySQL password
 DB_NAME = "cryptodata"  # Replace with your MySQL database name
 TABLE_NAME = "timestamp"
 _price = 0.0
@@ -73,7 +73,7 @@ def ten_minute_timer():
     print_current_time_with_milliseconds()
     bitcoin_price = get_bitcoin_price()
     print(f"The current Bitcoin price is: {bitcoin_price}")
-    for minute in range(1, 100):
+    for minute in range(1, 1440):
         print(f"Minute {minute} started...")
         time.sleep(60)  # Wait for 1 minute
         print(f"Minute {minute} finished.")
@@ -81,7 +81,7 @@ def ten_minute_timer():
         bitcoin_price = get_bitcoin_price()
         print(f"The current Bitcoin price is: {bitcoin_price}")
         store_timestamp_in_mysql()
-    print("Timer finished! 100 minutes have passed.")
+    print("Timer finished! 1440 minutes have passed.")
 
 def get_bitcoin_price():
     """Fetches the current Bitcoin price from a specific website."""
@@ -124,5 +124,5 @@ def get_float_from_string(str):
     return numerical_value
 
 if __name__ == "__main__":
-    print("10 min timer starting now:")
+    print("1440 min timer starting now:")
     ten_minute_timer()
