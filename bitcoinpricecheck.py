@@ -1,18 +1,21 @@
+
 import mysql.connector
 import time
 import datetime
 import requests
 from bs4 import BeautifulSoup
+import locale # Needed for a later example, but good practice to import at top
 
 # Database connection details
 DB_HOST = "localhost"  # Replace with your MySQL host
-DB_USER = "kevin"  # Replace with your MySQL username
+DB_USER = "root"  # Replace with your MySQL username
 DB_PASSWORD = "420420"  # Replace with your MySQL password
 DB_NAME = "cryptodata"  # Replace with your MySQL database name
 TABLE_NAME = "timestamp"
 _price = 0.0
-i = 6
+i = 23
 def store_timestamp_in_mysql():
+    global i
     """Connects to MySQL, creates a table if it doesn't exist,
     and stores the current system date and time."""
     try:
@@ -41,18 +44,16 @@ def store_timestamp_in_mysql():
 
         # Get the current system date and time
         now = datetime.datetime.now()
-
         # SQL query to insert the timestamp
-        insert_query = f"INSERT INTO {TABLE_NAME} (id, coin, price, timestamp) VALUES (%s, %s, %f, %s)"
-        values = (i, 'bitcoin', get_bitcoin_price(), now,)
-        print(f"Current index: {i}")
+        insert_query = f"INSERT INTO {TABLE_NAME} (id, coin, price, timestamp) VALUES (%s, %s, %s, %s)"
+        values = (i, 'bitcoin', get_float_from_string(get_bitcoin_price()), now.strftime('%Y-%m-%d %H:%M:%S'),)
         i = i + 1
 
         # Execute the insert query
         mycursor.execute(insert_query, values)
         mydb.commit()
 
-        print(f"Current timestamp '{now.strftime('%Y-%m-%d %H:%M:%S.%f')}' stored in table '{TABLE_NAME}'.")
+        print(f"Current timestamp '{now.strftime('%Y-%m-%d %H:%M:%S')}' stored in table '{TABLE_NAME}'.")
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -105,5 +106,23 @@ def get_bitcoin_price():
     except Exception as e:
         return f"An error occurred: {e}"
 
+def get_float_from_string(str):
+    currency_string = str
+
+    # 1. Remove the currency symbol ('$')
+    # 2. Remove the thousands separator (',')
+    # Chain the replace() calls for conciseness
+    cleaned_string = currency_string.replace('$', '').replace(',', '')
+
+    # 3. Convert the cleaned string to a float
+    try:
+        numerical_value = float(cleaned_string)
+        print(numerical_value)       # Output: 93770.79
+        print(type(numerical_value)) # Output: <class 'float'>
+    except ValueError:
+        print(f"Error: Could not convert '{cleaned_string}' to a float.")
+    return numerical_value
+
 if __name__ == "__main__":
-   ten_minute_timer()
+    print("10 min timer starting now:")
+    ten_minute_timer()
