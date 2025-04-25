@@ -1,13 +1,17 @@
 import mysql.connector
+import time
 import datetime
+import requests
+from bs4 import BeautifulSoup
 
 # Database connection details
 DB_HOST = "localhost"  # Replace with your MySQL host
 DB_USER = "kevin"  # Replace with your MySQL username
 DB_PASSWORD = "420420"  # Replace with your MySQL password
-DB_NAME = "crpytodata"  # Replace with your MySQL database name
+DB_NAME = "cryptodata"  # Replace with your MySQL database name
 TABLE_NAME = "timestamp"
-_price = 88888.88
+_price = 0.0
+i = 6
 def store_timestamp_in_mysql():
     """Connects to MySQL, creates a table if it doesn't exist,
     and stores the current system date and time."""
@@ -39,8 +43,10 @@ def store_timestamp_in_mysql():
         now = datetime.datetime.now()
 
         # SQL query to insert the timestamp
-        insert_query = f"INSERT INTO {TABLE_NAME} (coin, price, timestamp) VALUES (%s, %f, %s)"
-        values = ('bitcoin', 88888.88, now,)
+        insert_query = f"INSERT INTO {TABLE_NAME} (id, coin, price, timestamp) VALUES (%s, %s, %f, %s)"
+        values = (i, 'bitcoin', get_bitcoin_price(), now,)
+        print(f"Current index: {i}")
+        i = i + 1
 
         # Execute the insert query
         mycursor.execute(insert_query, values)
@@ -58,5 +64,46 @@ def store_timestamp_in_mysql():
             mydb.close()
             print("MySQL connection closed.")
 
+def print_current_time_with_milliseconds():
+    now = datetime.datetime.now()
+    print("Current system time:", now.strftime("%Y-%m-%d %H:%M:%S.%f"))
+
+def ten_minute_timer():
+    print_current_time_with_milliseconds()
+    bitcoin_price = get_bitcoin_price()
+    print(f"The current Bitcoin price is: {bitcoin_price}")
+    for minute in range(1, 100):
+        print(f"Minute {minute} started...")
+        time.sleep(60)  # Wait for 1 minute
+        print(f"Minute {minute} finished.")
+        print_current_time_with_milliseconds()
+        bitcoin_price = get_bitcoin_price()
+        print(f"The current Bitcoin price is: {bitcoin_price}")
+        store_timestamp_in_mysql()
+    print("Timer finished! 100 minutes have passed.")
+
+def get_bitcoin_price():
+    """Fetches the current Bitcoin price from a specific website."""
+    url = 'https://www.coindesk.com/price/bitcoin'
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'}
+
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise an exception for bad status codes
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        price_element = soup.find('div', class_='text-charcoal-600 font-mono')
+
+        if price_element:
+            price_text = price_element.text.strip()
+            return price_text
+        else:
+            return "Could not find Bitcoin price on the page."
+
+    except requests.exceptions.RequestException as e:
+        return f"Error fetching the page: {e}"
+    except Exception as e:
+        return f"An error occurred: {e}"
+
 if __name__ == "__main__":
-    store_timestamp_in_mysql()
+   ten_minute_timer()
