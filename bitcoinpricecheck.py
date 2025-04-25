@@ -6,6 +6,8 @@ import requests
 from bs4 import BeautifulSoup
 import locale # Needed for a later example, but good practice to import at top
 
+# Error: 2003: Can't connect to MySQL server on 'db5017731874.hosting-data.io:3306' (Errno 11001: getaddrinfo failed)
+
 # Database connection details
 DB_HOST = "db5017731874.hosting-data.io"  # Replace with your MySQL host
 DB_USER = "dbu271559"  # Replace with your MySQL username
@@ -13,7 +15,7 @@ DB_PASSWORD = "420BUD420"  # Replace with your MySQL password
 DB_NAME = "cryptodata"  # Replace with your MySQL database name
 TABLE_NAME = "timestamp"
 _price = 0.0
-i = 23
+i = 44
 def store_timestamp_in_mysql():
     global i
     """Connects to MySQL, creates a table if it doesn't exist,
