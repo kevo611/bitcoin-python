@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 import locale # Needed for a later example, but good practice to import at top
 
-# Error: 2003: Can't connect to MySQL server on 'db5017731874.hosting-data.io:3306' (Errno 11001: getaddrinfo failed)
+# 'INSERT INTO timestamp (id, coin, price, timestamp) VALUES (44, 'bitcoin', 94228.42, '2025-04-26 05:39:20')
 
 # Database connection details
 DB_HOST = "db5017731874.hosting-data.io"  # Replace with your MySQL host
