@@ -1,0 +1,11 @@
+refer to license.txt for license information
+
+relevant scripts include:
+
+timer.py #gets Bitcoin price from coindesk every minute for 600 minutes
+
+crypto-tracker.py #args 'coin name' (e.g. 'bitcoin' or 'ethereum') '%d' (e.g. '600' -num of minutes to poll) example: crypto-tracker.py bitcoin 600
+
+crypto-tracker-setup.py #installs necessary python modules currently under development
+
+all the other scripts are for reference and may be incomplete or incorrect
