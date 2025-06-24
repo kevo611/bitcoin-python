@@ -1,5 +1,9 @@
 refer to license.txt for license information
 
+disclaimer:
+
+for educational purposes only. not intended to poll coindesk uncontrollably; needs to be updated to use coindesk api instead of web scraping the data.
+
 relevant scripts include:
 
 timer.py #gets Bitcoin price from coindesk every minute for 600 minutes
