@@ -61,7 +61,7 @@ def price_tracker(coin_id_to_track, total_minutes_duration):
             print(error_message)
             current_price_display = "N/A" # For display purposes
         else:
-            current_price_display = f"${current_price_value:,.2f}"
+            current_price_display = f"${current_price_value:,.8f}"
             
             # --- Add emoji feedback based on price change ---
             feedback_emoji = ""
